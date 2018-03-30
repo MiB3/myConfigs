@@ -1,0 +1,12 @@
+{
+	"always_show_minimap_viewport": true,
+	"auto_close_tags": false,
+	"auto_complete_selector": "source, text",
+	"auto_match_enabled": false,
+	"find_selected_text": true,
+	"font_size": 14.0,
+	"scroll_past_end": true,
+	"spell_check": true,
+	"tab_size": 2,
+	"word_wrap": true
+}
