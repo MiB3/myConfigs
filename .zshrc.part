@@ -1,1 +1,9 @@
 ZSH_THEME="gentoo"
+
+# better prompt
+# This is the default for theme 'gentoo'
+# PROMPT='%(!.%{$fg_bold[red]%}.%{$fg_bold[green]%}%n@)%m %{$fg_bold[blue]%}%(!.%1~.%~) $(git_prompt_info)%_$(prompt_char)%{$reset_color%} '
+expectedPrompt='%(!.%{$fg_bold[red]%}.%{$fg_bold[green]%}%n@)%m %{$fg_bold[blue]%}%(!.%1~.%~) $(git_prompt_info)$(prompt_char)%{$reset_color%} '
+if [ "$PROMPT" = "$expectedPrompt" ]; then
+	PROMPT='%(!.%{$fg_bold[red]%}.%{$fg_bold[green]%}%D{%T} %n@)%m %{$fg_bold[black]%}%? %{$fg_bold[blue]%}%(!.%1~.%~) $(git_prompt_info)%_$(prompt_char)%{$reset_color%} '
+fi
