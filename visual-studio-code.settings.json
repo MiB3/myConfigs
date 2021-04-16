@@ -1,6 +1,15 @@
 {
-    "workbench.startupEditor": "newUntitledFile",
-    "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false,
-    "editor.wordWrap": "on"
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingOvertype": "never",
+    "editor.autoClosingQuotes": "never",
+    "editor.renderControlCharacters": true,
+    "editor.renderWhitespace": "all",
+    "editor.suggestSelection": "first",
+    "editor.tabSize": 2,
+    "editor.wordWrap": "on",
+    "gitlens.codeLens.enabled": false,
+    "gitlens.currentLine.enabled": false,
+    "window.openFilesInNewWindow": "on",
+    "workbench.colorTheme": "Default Light+",
+    "workbench.startupEditor": "newUntitledFile"
 }
