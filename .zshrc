@@ -2,6 +2,7 @@
 homebrew_home="${HOME}/homebrew"
 if [ "$(arch)" = "i386" ]; then
   homebrew_home="${homebrew_home}_intel"
+  export PATH=$(echo "$PATH" | sed 's#/homebrew/#/homebrew_intel/#g')
 fi
 
 # If you come from bash you might have to change your $PATH.
@@ -158,8 +159,20 @@ if [ -f "${homebrew_home}/opt/chruby/share/chruby/chruby.sh" ]; then
 fi
 
 # switch to intel shell
-alias intel="if [ \"\$(arch)\" != 'i386' ]; then export PATH=$(echo \"\$PATH\" | sed 's#/homebrew/#/homebrew_intel/#g') && env /usr/bin/arch -x86_64 /bin/zsh --login; else echo 'Already on intel'; fi"
-alias arm="if [ \"\$(arch)\" != 'arm64' ]; then export PATH=$(echo \"\$PATH\" | sed 's#/homebrew/#/homebrew_intel/#g') && exit; else echo 'Already on arm'; fi"
+intel() {
+  if [ "$(arch)" != 'i386' ]; then 
+    env /usr/bin/arch -x86_64 /bin/zsh --login
+  else 
+    echo 'Already on intel'
+  fi
+}
+arm() {
+  if [ "$(arch)" != 'arm64' ]; then
+    exit
+  else 
+    echo 'Already on arm' 
+  fi
+}
 
 # lighter autosuggest to better differentiate from the normal command.
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'

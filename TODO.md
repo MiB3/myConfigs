@@ -1,0 +1,3 @@
+- call arch only once in .zshrc and save in variable
+- check if vimrc, sublime and vs code settings are up to date
+- enable some CI check for validity of files.
