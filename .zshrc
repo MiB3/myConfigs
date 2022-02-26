@@ -127,25 +127,21 @@ alias jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc 
 export PATH="${homebrew_home}/bin:${PATH}"
 export PATH="${homebrew_home}/sbin:${PATH}"
 
-# laod_nvm () {
-#   if [ -z "$NVM_DIR" ]; then
-#     if [ -f "${homebrew_home}/opt/nvm/nvm.sh" ]; then
-#       # nvm
-#       export NVM_DIR="$HOME/.nvm"
-#       [ -s "${homebrew_home}/opt/nvm/nvm.sh" ] && . "${homebrew_home}/opt/nvm/nvm.sh"  # This loads nvm
-#       [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-#     fi;
-#   fi;
-# }
+load_nvm () {
+  unalias nvm
+  if [ -z "$NVM_DIR" ]; then
+    if [ -f "${homebrew_home}/opt/nvm/nvm.sh" ]; then
+      # nvm
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "${homebrew_home}/opt/nvm/nvm.sh" ] && . "${homebrew_home}/opt/nvm/nvm.sh"  # This loads nvm
+      [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+    fi;
+  else
+    echo "nvm already loaded"
+  fi;
+}
 
-# alias nvm="load_nvm() && nvm"
-
-if [ -f "${homebrew_home}/opt/nvm/nvm.sh" ]; then
-  # nvm
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "${homebrew_home}/opt/nvm/nvm.sh" ] && . "${homebrew_home}/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-fi;
+alias nvm="load_nvm && nvm"
 
 if which composer >/dev/null; then
   # composer (php)
