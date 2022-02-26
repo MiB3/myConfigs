@@ -1,8 +1,14 @@
+# homebrew
+homebrew_home="${HOME}/homebrew"
+if [ "$(arch)" = "i386" ]; then
+  homebrew_home="${homebrew_home}_intel"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/liip/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -74,7 +80,9 @@ ZSH_THEME="gentoo"
 __git_files () {
     _wanted files expl 'local files' _files
 }
-plugins=(git zsh-autosuggestions)
+plugins=(git)
+# autosuggestions were installed via homebrew (brew install autosuggestions)
+source "${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,6 +112,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+## Here comes my personal stuff ##
+
 # better prompt
 expectedPrompt='%(!.%B%F{red}.%B%F{green}%n@)%m %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
 if [ "$PROMPT" = "$expectedPrompt" ]; then
@@ -112,12 +122,7 @@ fi
 
 alias code="open -a 'Visual Studio Code'"
 alias fork="open -a 'Fork'"
-
-# homebrew
-homebrew_home="${HOME}/homebrew"
-if [ "$(arch)" = "i386" ]; then
-  homebrew_home="${homebrew_home}_intel"
-fi
+alias jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
 
 export PATH="${homebrew_home}/bin:${PATH}"
 export PATH="${homebrew_home}/sbin:${PATH}"
@@ -142,8 +147,10 @@ if [ -f "${homebrew_home}/opt/nvm/nvm.sh" ]; then
   [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 fi;
 
-# composer (php)
-export PATH="${HOME}/.composer/vendor/bin:${PATH}"
+if which composer >/dev/null; then
+  # composer (php)
+  export PATH="${HOME}/.composer/vendor/bin:${PATH}"
+fi
 
 # go (especially for air)
 export PATH="$(go env GOPATH)/bin:${PATH}"
@@ -160,5 +167,3 @@ alias arm="if [ \"\$(arch)\" != 'arm64' ]; then export PATH=$(echo \"\$PATH\" | 
 
 # lighter autosuggest to better differentiate from the normal command.
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
-
-alias jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
