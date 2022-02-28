@@ -1,13 +1,4 @@
-# homebrew
 homebrew_home="${HOME}/homebrew"
-if [ "$(arch)" = "i386" ]; then
-  homebrew_home="${homebrew_home}_intel"
-fi
-
-# since I can't get 'exec env -i /usr/bin/arch -x86_64 /bin/zsh --login' to work. Here is a work around to fix at least the PATH variable.
-export BACKUP_PATH=${BACKUP_PATH:-$PATH}
-export PATH=${BACKUP_PATH}
-unset NVM_DIR # "deinit nvm"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -129,17 +120,26 @@ alias code="open -a 'Visual Studio Code'"
 alias fork="open -a 'Fork'"
 alias jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
 
-export PATH="${homebrew_home}/bin:${PATH}"
-export PATH="${homebrew_home}/sbin:${PATH}"
+if [ "$(arch)" = 'arm64' ]; then
+  export PATH="${homebrew_home}_intel/bin:${PATH}"
+  export PATH="${homebrew_home}_intel/sbin:${PATH}"
+  export PATH="${homebrew_home}/bin:${PATH}"
+  export PATH="${homebrew_home}/sbin:${PATH}"
+else
+  export PATH="${homebrew_home}/bin:${PATH}"
+  export PATH="${homebrew_home}/sbin:${PATH}"
+  export PATH="${homebrew_home}_intel/bin:${PATH}"
+  export PATH="${homebrew_home}_intel/sbin:${PATH}"
+fi
 
 load_nvm () {
   unalias nvm
   if [ -z "$NVM_DIR" ]; then
-    if [ -f "${homebrew_home}/opt/nvm/nvm.sh" ]; then
+    if [ -f "${homebrew_home}_intel/opt/nvm/nvm.sh" ]; then
       # nvm
       export NVM_DIR="$HOME/.nvm"
-      [ -s "${homebrew_home}/opt/nvm/nvm.sh" ] && . "${homebrew_home}/opt/nvm/nvm.sh"  # This loads nvm
-      [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+      [ -s "${homebrew_home}_intel/opt/nvm/nvm.sh" ] && . "${homebrew_home}_intel/opt/nvm/nvm.sh"  # This loads nvm
+      [ -s "${homebrew_home}_intel/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}_intel/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
     fi;
   else
     echo "nvm already loaded"
@@ -148,19 +148,15 @@ load_nvm () {
 
 alias nvm="load_nvm && nvm"
 
-if which composer >/dev/null; then
-  # composer (php)
-  export PATH="${HOME}/.composer/vendor/bin:${PATH}"
-fi
+# composer (php)
+export PATH="${HOME}/.composer/vendor/bin:${PATH}"
 
 # go (especially for air)
 export PATH="$(go env GOPATH)/bin:${PATH}"
 
-if [ -f "${homebrew_home}/opt/chruby/share/chruby/chruby.sh" ]; then
-  # chruby
-  source "${homebrew_home}/opt/chruby/share/chruby/chruby.sh"
-  chruby 3.0.2
-fi
+# chruby
+source "${homebrew_home}/opt/chruby/share/chruby/chruby.sh"
+chruby 3.0.2
 
 # switch to intel shell
 intel() {
