@@ -2,8 +2,12 @@
 homebrew_home="${HOME}/homebrew"
 if [ "$(arch)" = "i386" ]; then
   homebrew_home="${homebrew_home}_intel"
-  export PATH=$(echo "$PATH" | sed 's#/homebrew/#/homebrew_intel/#g')
 fi
+
+# since I can't get 'exec env -i /usr/bin/arch -x86_64 /bin/zsh --login' to work. Here is a work around to fix at least the PATH variable.
+export BACKUP_PATH=${BACKUP_PATH:-$PATH}
+export PATH=${BACKUP_PATH}
+unset NVM_DIR # "deinit nvm"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -160,15 +164,15 @@ fi
 
 # switch to intel shell
 intel() {
-  if [ "$(arch)" != 'i386' ]; then 
-    env /usr/bin/arch -x86_64 /bin/zsh --login
+  if [ "$(arch)" != 'i386' ]; then
+    exec env /usr/bin/arch -x86_64 /bin/zsh --login
   else 
     echo 'Already on intel'
   fi
 }
 arm() {
   if [ "$(arch)" != 'arm64' ]; then
-    exit
+    exec env /usr/bin/arch -arm64 /bin/zsh --login
   else 
     echo 'Already on arm' 
   fi
