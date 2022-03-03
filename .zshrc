@@ -110,18 +110,28 @@ source $ZSH/oh-my-zsh.sh
 
 ## Here comes my personal stuff ##
 
+arch=$(arch)
+
 # better prompt
 expectedPrompt='%(!.%B%F{red}.%B%F{green}%n@)%m %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
 if [ "$PROMPT" = "$expectedPrompt" ]; then
-  PROMPT='%(!.%B%F{red}.%B%F{green}%D{%T} %n) %F{red}$(arch | cut -c1-1) %{$fg_bold[black]%}%? %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
+  PROMPT='%(!.%B%F{red}.%B%F{green}%D{%T} %n) %F{red}'${arch:0:1}' %{$fg_bold[black]%}%? %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
 fi
 
 alias code="open -a 'Visual Studio Code'"
 alias fork="open -a 'Fork'"
-alias jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
 alias beep="echo -ne '\007'"
 
-if [ "$(arch)" = 'arm64' ]; then
+load_jsc () {
+  unalias jsc
+  jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
+  alias jsc="${jsc}"
+  "${jsc}" "$@"
+}
+
+alias jsc="load_jsc"
+
+if [ "${arch}" = 'arm64' ]; then
   export PATH="${homebrew_home}_intel/bin:${PATH}"
   export PATH="${homebrew_home}_intel/sbin:${PATH}"
   export PATH="${homebrew_home}/bin:${PATH}"
