@@ -170,9 +170,16 @@ export PATH="${HOME}/.composer/vendor/bin:${PATH}"
 # go (especially for air)
 export PATH="$(go env GOPATH)/bin:${PATH}"
 
-# chruby
-source "${homebrew_home}/opt/chruby/share/chruby/chruby.sh"
-chruby 3.0.2
+# ruby & chruby
+# this lazy loading approach does not work for shebangs. shebangs will take up the system ruby if ruby() wasn't called yet.
+ruby () {
+  unset -f ruby
+  source "${homebrew_home}/opt/chruby/share/chruby/chruby.sh"
+  chruby 3.0.2
+  ruby "$@"
+}
+
+export -f ruby > /dev/null
 
 # switch to intel shell
 intel() {
