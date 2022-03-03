@@ -119,6 +119,7 @@ fi
 alias code="open -a 'Visual Studio Code'"
 alias fork="open -a 'Fork'"
 alias jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
+alias beep="echo -ne '\007'"
 
 if [ "$(arch)" = 'arm64' ]; then
   export PATH="${homebrew_home}_intel/bin:${PATH}"
