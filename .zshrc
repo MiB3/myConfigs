@@ -199,3 +199,6 @@ arm() {
 
 # lighter autosuggest to better differentiate from the normal command.
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
+
+# asdf
+. /Users/liip/homebrew/opt/asdf/libexec/asdf.sh
