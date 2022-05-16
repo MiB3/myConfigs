@@ -1,0 +1,40 @@
+{
+    "[go]": {
+        "editor.formatOnSave": false
+    },
+    "[sql]": {
+        "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
+    },
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingOvertype": "never",
+    "editor.autoClosingQuotes": "never",
+    "editor.maxTokenizationLineLength": 400000,
+    "editor.renderControlCharacters": true,
+    "editor.renderWhitespace": "all",
+    "editor.suggestSelection": "first",
+    "editor.tabSize": 2,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "editor.wordWrap": "on",
+    "files.associations": {
+        "*.htm": "twig"
+    },
+    "gitlens.codeLens.enabled": false,
+    "gitlens.currentLine.enabled": false,
+    "go.toolsManagement.autoUpdate": true,
+    "html.autoClosingTags": false,
+    "json.maxItemsComputed": 50000,
+    "redhat.telemetry.enabled": true,
+    "search.useIgnoreFiles": false,
+    "security.workspace.trust.banner": "never",
+    "security.workspace.trust.startupPrompt": "never",
+    "svelte.enable-ts-plugin": true,
+    "terminal.integrated.scrollback": 10000,
+    "window.openFilesInNewWindow": "on",
+    "workbench.colorTheme": "Default Light+",
+    "workbench.editorAssociations": {
+        "*.md": "vscode.markdown.preview.editor"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.startupEditor": "newUntitledFile"
+}
