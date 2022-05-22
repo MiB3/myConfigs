@@ -172,14 +172,17 @@ export PATH="$(go env GOPATH)/bin:${PATH}"
 
 # ruby & chruby
 # this lazy loading approach does not work for shebangs. shebangs will take up the system ruby if ruby() wasn't called yet.
-ruby () {
-  unset -f ruby
+
+load_chruby () {
+  unalias ruby
+  unalias chruby
+  
   source "${homebrew_home}/opt/chruby/share/chruby/chruby.sh"
   chruby 3.0.2
-  ruby "$@"
 }
 
-export -f ruby > /dev/null
+alias ruby="load_chruby && ruby"
+alias chruby="load_chruby && chruby"
 
 # switch to intel shell
 intel() {
