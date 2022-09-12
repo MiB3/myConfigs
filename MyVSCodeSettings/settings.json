@@ -36,5 +36,10 @@
         "*.md": "vscode.markdown.preview.editor"
     },
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.startupEditor": "newUntitledFile"
+    "workbench.startupEditor": "newUntitledFile",
+    "yaml.maxItemsComputed": 10000,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    }
 }

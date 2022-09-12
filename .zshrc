@@ -147,6 +147,7 @@ load_nvm () {
   unalias nvm
   unalias node
   unalias npm
+  unalias yarn
 
   if [ -z "$NVM_DIR" ]; then
     if [ -f "${homebrew_home}_intel/opt/nvm/nvm.sh" ]; then
@@ -163,6 +164,7 @@ load_nvm () {
 alias nvm="load_nvm && nvm"
 alias node="load_nvm && node"
 alias npm="load_nvm && npm"
+alias yarn="nvm use && yarn"
 
 # composer (php)
 export PATH="${HOME}/.composer/vendor/bin:${PATH}"
