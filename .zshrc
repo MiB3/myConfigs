@@ -149,12 +149,14 @@ load_nvm () {
   unalias npm
   unalias yarn
 
+  nvm_homebrew="${homebrew_home}"
+
   if [ -z "$NVM_DIR" ]; then
-    if [ -f "${homebrew_home}_intel/opt/nvm/nvm.sh" ]; then
+    if [ -f "${nvm_homebrew}/opt/nvm/nvm.sh" ]; then
       # nvm
       export NVM_DIR="$HOME/.nvm"
-      [ -s "${homebrew_home}_intel/opt/nvm/nvm.sh" ] && . "${homebrew_home}_intel/opt/nvm/nvm.sh"  # This loads nvm
-      [ -s "${homebrew_home}_intel/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}_intel/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+      [ -s "${homebrew_home}/opt/nvm/nvm.sh" ] && . "${homebrew_home}/opt/nvm/nvm.sh"  # This loads nvm
+      [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
     fi;
   else
     echo "nvm already loaded"

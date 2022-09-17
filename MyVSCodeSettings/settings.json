@@ -41,5 +41,7 @@
     "terminal.integrated.enableMultiLinePasteWarning": false,
     "[html]": {
         "editor.defaultFormatter": "vscode.html-language-features"
-    }
+    },
+    "npm.keybindingsChangedWarningShown": true,
+    "html.autoCreateQuotes": false
 }
