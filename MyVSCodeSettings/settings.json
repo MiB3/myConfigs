@@ -43,5 +43,8 @@
         "editor.defaultFormatter": "vscode.html-language-features"
     },
     "npm.keybindingsChangedWarningShown": true,
-    "html.autoCreateQuotes": false
+    "html.autoCreateQuotes": false,
+    "customizeUI.stylesheet": {
+         ".quick-input-widget": "width: 100% !important; left: 300px"
+    }
 }
