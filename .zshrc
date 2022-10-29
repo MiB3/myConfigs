@@ -208,4 +208,13 @@ arm() {
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 
 # asdf
-. /Users/liip/homebrew/opt/asdf/libexec/asdf.sh
+asdfFile="$HOME/homebrew/opt/asdf/libexec/asdf.sh"
+if [[ -f "${asdfFile}" ]]; then
+  . "${asdfFile}"
+fi
+
+# clang-tidy
+clangTidyFile="${HOME}/homebrew_intel/opt/llvm@14/bin/clang-tidy"
+if [[ -f "${clangTidyFile}" ]]; then
+  alias clang-tidy="${clangTidyFile}"
+fi
