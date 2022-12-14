@@ -218,3 +218,6 @@ clangTidyFile="${HOME}/homebrew_intel/opt/llvm@14/bin/clang-tidy"
 if [[ -f "${clangTidyFile}" ]]; then
   alias clang-tidy="${clangTidyFile}"
 fi
+
+# add custom user binaries to path
+export PATH="${HOME}/bin:${PATH}"

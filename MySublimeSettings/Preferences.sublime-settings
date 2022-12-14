@@ -7,5 +7,9 @@
 	"scroll_past_end": true,
 	"tab_size": 2,
 	"word_wrap": true,
-	"enable_hexadecimal_encoding": true
+	"enable_hexadecimal_encoding": true,
+	"ignored_packages":
+	[
+		"Vintage",
+	],
 }
