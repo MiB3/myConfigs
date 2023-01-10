@@ -221,3 +221,12 @@ fi
 
 # add custom user binaries to path
 export PATH="${HOME}/bin:${PATH}"
+
+# color every second line to better read log stuff. Use like: ls | colorOdd
+alias colorOdd='awk "NR%2 == 0 { print \"\033[107m\" \$0 \"\033[0m\"; next } { print \$0 }"'
+
+export HOMEBREW_EDITOR="open -a 'Visual Studio Code'"
+
+if which platform &> /dev/null; then
+  alias platform="DYLD_LIBRARY_PATH=${HOME}/homebrew/opt/openssl@1.1/lib:${HOME}/homebrew/opt/oniguruma/lib platform"
+fi
