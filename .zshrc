@@ -227,6 +227,8 @@ alias colorOdd='awk "NR%2 == 0 { print \"\033[107m\" \$0 \"\033[0m\"; next } { p
 
 export HOMEBREW_EDITOR="open -a 'Visual Studio Code'"
 
-if which platform &> /dev/null; then
-  alias platform="DYLD_LIBRARY_PATH=${HOME}/homebrew/opt/openssl@1.1/lib:${HOME}/homebrew/opt/oniguruma/lib platform"
+# Platform.sh CLI configuration
+export PATH="$HOME/"'.platformsh/bin':"$PATH"
+if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then 
+  . "$HOME/"'.platformsh/shell-config.rc';
 fi
