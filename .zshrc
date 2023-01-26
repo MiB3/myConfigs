@@ -232,3 +232,14 @@ export PATH="$HOME/"'.platformsh/bin':"$PATH"
 if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then 
   . "$HOME/"'.platformsh/shell-config.rc';
 fi
+
+shellcheck-all() {
+  git ls-files | grep '.*.sh$' | xargs shellcheck -C "$@" | sed "s/ line \(.*\):/:\1/g" 
+}
+
+alias shellcheck-all-fix="git ls-files | grep '.*.sh\$' | xargs shellcheck -f diff | git apply --allow-empty"
+
+notify() {
+  script="display notification \"$@\""
+  osascript -e "$script"
+}
