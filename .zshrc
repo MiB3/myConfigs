@@ -243,3 +243,40 @@ notify() {
   script="display notification \"$@\""
   osascript -e "$script"
 }
+
+# display command start time
+bold=$(tput bold)
+normal=$(tput sgr0)
+gray=$(tput setaf 7)
+preexec() {
+  echo -n "${bold}${gray}"
+  date "+%H:%M:%S"
+  echo -n "${normal}" 
+}
+
+# display notification for long running commands
+notificationTime=$((5 * 60))
+notify-preexec-hook() {
+    zsh_notifier_cmd="$1"
+    zsh_notifier_time="`date +%s`"
+}
+
+notify-precmd-hook() {
+    local time_taken
+
+    if [[ "${zsh_notifier_cmd}" != "" ]]; then
+        time_taken=$(( `date +%s` - ${zsh_notifier_time} ))
+        if (( $time_taken > $notificationTime )); then
+          message="'$zsh_notifier_cmd' exited after"
+          if (( $time_taken > 60 )); then
+            message="$message $(( $time_taken / 60 )) minutes and"
+            time_taken=$(( $time_taken % 60 ))
+          fi
+            notify "$message $time_taken seconds"
+        fi
+    fi
+    zsh_notifier_cmd=
+}
+
+add-zsh-hook preexec notify-preexec-hook
+add-zsh-hook precmd notify-precmd-hook
