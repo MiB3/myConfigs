@@ -1,8 +1,5 @@
 homebrew_home="${HOME}/homebrew"
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
@@ -12,60 +9,9 @@ export ZSH="${HOME}/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="gentoo"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+HYPHEN_INSENSITIVE="true"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -77,45 +23,21 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 plugins=(git)
+
 # autosuggestions were installed via homebrew (brew install autosuggestions)
 source "${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 ## Here comes my personal stuff ##
 
 arch=$(arch)
+last_commit_time="00:00"
 
 # better prompt
 expectedPrompt='%(!.%B%F{red}.%B%F{green}%n@)%m %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
 if [ "$PROMPT" = "$expectedPrompt" ]; then
-  PROMPT='%(!.%B%F{red}.%B%F{green}%D{%T} %n) %F{red}'${arch:0:1}' %{$fg_bold[black]%}%? %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
+  PROMPT='%B%F{8}${last_commit_time} %F{green}%n %F{red}'${arch:0:1}' %F{black}%? %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%(!.%F{red}.%F{blue})$%k%b%f '
 fi
 
 alias code="open -a 'Visual Studio Code'"
@@ -244,39 +166,32 @@ notify() {
   osascript -e "$script"
 }
 
-# display command start time
-bold=$(tput bold)
-normal=$(tput sgr0)
-gray=$(tput setaf 7)
-preexec() {
-  echo -n "${bold}${gray}"
-  date "+%H:%M:%S"
-  echo -n "${normal}" 
+preexec-time-hook() {
+  time_hook_start="$(date +%s)"
 }
 
-# display notification for long running commands
 notificationTime=$((5 * 60))
-notify-preexec-hook() {
-    zsh_notifier_cmd="$1"
-    zsh_notifier_time="`date +%s`"
-}
+precmd-time-hook() {
+  if [[ "${time_hook_start}" != "" ]]; then
+    time_taken=$(( $(date +%s) - ${time_hook_start} ))
+    minutes=$(( $time_taken / 60 ))
+    seconds=$(( $time_taken % 60 ))
 
-notify-precmd-hook() {
-    local time_taken
-
-    if [[ "${zsh_notifier_cmd}" != "" ]]; then
-        time_taken=$(( `date +%s` - ${zsh_notifier_time} ))
-        if (( $time_taken > $notificationTime )); then
-          message="'$zsh_notifier_cmd' exited after"
-          if (( $time_taken > 60 )); then
-            message="$message $(( $time_taken / 60 )) minutes and"
-            time_taken=$(( $time_taken % 60 ))
-          fi
-            notify "$message $time_taken seconds"
-        fi
+    if (( $minutes > 60 )); then
+      hours=$(( $minutes / 60 ))
+      minutes=$(( $minutes % 60 ))
+      printf -v last_commit_time "%02d:%02d:%02d" "$hours" "$minutes" "$seconds"
+    else
+      printf -v last_commit_time "%02d:%02d" "$minutes" $seconds
     fi
-    zsh_notifier_cmd=
+
+    if (( $time_taken > $notificationTime )); then
+      printf "\a"
+    fi
+  fi
+
+  time_hook_start=""
 }
 
-add-zsh-hook preexec notify-preexec-hook
-add-zsh-hook precmd notify-precmd-hook
+add-zsh-hook preexec preexec-time-hook
+add-zsh-hook precmd precmd-time-hook

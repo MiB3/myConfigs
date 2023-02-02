@@ -29,7 +29,7 @@
     "security.workspace.trust.banner": "never",
     "security.workspace.trust.startupPrompt": "never",
     "svelte.enable-ts-plugin": true,
-    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.scrollback": 100000,
     "window.openFilesInNewWindow": "on",
     "workbench.colorTheme": "Default Light+",
     "workbench.editorAssociations": {
@@ -42,9 +42,9 @@
     "[html]": {
         "editor.defaultFormatter": "vscode.html-language-features"
     },
-    "npm.keybindingsChangedWarningShown": true,
     "html.autoCreateQuotes": false,
     "customizeUI.stylesheet": {
          ".quick-input-widget": "width: 100% !important; left: 300px"
-    }
+    },
+    "terminal.integrated.enableBell": true
 }
