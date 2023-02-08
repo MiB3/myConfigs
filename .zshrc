@@ -156,6 +156,7 @@ if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then
 fi
 
 shellcheck-all() {
+  set -o pipefail
   git ls-files | grep '.*.sh$' | xargs shellcheck -C "$@" | sed "s/ line \(.*\):/:\1/g" 
 }
 
