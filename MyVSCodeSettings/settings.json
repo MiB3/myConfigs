@@ -52,5 +52,10 @@
     "terminal.integrated.enableBell": true,
     "yaml.customTags": [
         "!reference sequence"
-    ]
+    ],
+    "git.openRepositoryInParentFolders": "never",
+    "window.newWindowDimensions": "maximized",
+    "[python]": {
+        "editor.formatOnType": true
+    }
 }

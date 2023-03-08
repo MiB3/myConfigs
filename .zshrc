@@ -196,3 +196,13 @@ precmd-time-hook() {
 
 add-zsh-hook preexec preexec-time-hook
 add-zsh-hook precmd precmd-time-hook
+
+# always run valet on intel, since php is installed in brew intel.
+valet() {
+  if [ "$(arch)" != 'i386' ]; then
+    echo "Error: valet needs to be executed in an intel shell"
+    return 1
+  fi
+
+  command valet "$@"
+}
