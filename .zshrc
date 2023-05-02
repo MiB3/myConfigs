@@ -46,7 +46,7 @@ alias beep="echo -ne '\007'"
 
 load_jsc () {
   unalias jsc
-  jsc=$(find /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
+  jsc=$(find -L /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
   alias jsc="${jsc}"
   "${jsc}" "$@"
 }
