@@ -226,3 +226,7 @@ fi
 # <<< conda initialize <<<
 
 disable r # disable the built in r command so we can you r (the language).
+
+# fix for Docker on Mac with multiple users
+# https://github.com/docker/for-mac/issues/6781#issuecomment-1541911185
+export DOCKER_HOST=unix://$HOME/.docker/run/docker.sock
