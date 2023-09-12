@@ -235,3 +235,6 @@ if ls "$HOME/.mutagen/docker-desktop-extension/docker.sock" &> /dev/null; then
 else
   export DOCKER_HOST=unix://$HOME/.docker/run/docker.sock
 fi
+
+# Automatically do updates without asking. https://stackoverflow.com/a/25876379/5935427
+DISABLE_UPDATE_PROMPT=true
