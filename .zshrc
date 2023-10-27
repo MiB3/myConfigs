@@ -238,3 +238,5 @@ fi
 
 # Automatically do updates without asking. https://stackoverflow.com/a/25876379/5935427
 DISABLE_UPDATE_PROMPT=true
+
+alias PlistBuddy=/usr/libexec/PlistBuddy
