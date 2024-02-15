@@ -230,8 +230,8 @@ disable r # disable the built in r command so we can you r (the language).
 # fix for Docker on Mac with multiple users
 # https://github.com/docker/for-mac/issues/6781#issuecomment-1541911185
 # or use mutagen if available
-if ls "$HOME/.mutagen/docker-desktop-extension/docker.sock" &> /dev/null; then
-  docker context use desktop-linux-mutagen &> /dev/null
+if docker context ls | grep desktop-linux &> /dev/null; then
+  docker context use desktop-linux &> /dev/null
 else
   export DOCKER_HOST=unix://$HOME/.docker/run/docker.sock
 fi
