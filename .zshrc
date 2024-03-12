@@ -37,7 +37,7 @@ last_commit_time="00:00"
 # better prompt
 expectedPrompt='%(!.%B%F{red}.%B%F{green}%n@)%m %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
 if [ "$PROMPT" = "$expectedPrompt" ]; then
-  PROMPT='%B%F{8}${last_commit_time} %F{green}%n %F{red}'${arch:0:1}' %F{black}%? %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%(!.%F{red}.%F{blue})$%k%b%f '
+  PROMPT='%B%F{7}%D{%K:%M:%S} %F{8}${last_commit_time} %F{green}%n %F{red}'${arch:0:1}' %F{black}%? %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%(!.%F{red}.%F{blue})$%k%b%f '
 fi
 
 alias code="open -a 'Visual Studio Code'"
