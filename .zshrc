@@ -240,3 +240,5 @@ fi
 DISABLE_UPDATE_PROMPT=true
 
 alias PlistBuddy=/usr/libexec/PlistBuddy
+# Lando
+export PATH="/Users/liip/.lando/bin${PATH+:$PATH}"; #landopath
