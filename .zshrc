@@ -242,3 +242,6 @@ DISABLE_UPDATE_PROMPT=true
 alias PlistBuddy=/usr/libexec/PlistBuddy
 # Lando
 export PATH="/Users/liip/.lando/bin${PATH+:$PATH}"; #landopath
+alias frontend-npm="lando frontend-npm"
+alias cart-client-npm="lando cart-client-npm"
+alias cart-api-npm="lando cart-api-npm"
