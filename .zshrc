@@ -240,8 +240,10 @@ fi
 DISABLE_UPDATE_PROMPT=true
 
 alias PlistBuddy=/usr/libexec/PlistBuddy
-# Lando
+# lando
 export PATH="/Users/liip/.lando/bin${PATH+:$PATH}"; #landopath
 alias frontend-npm="lando frontend-npm"
 alias cart-client-npm="lando cart-client-npm"
 alias cart-api-npm="lando cart-api-npm"
+
+alias diff-highlight="/Users/liip/homebrew/Cellar/git/2.51.2/share/git-core/contrib/diff-highlight/diff-highlight"
