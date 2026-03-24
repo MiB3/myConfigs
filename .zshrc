@@ -43,20 +43,18 @@ load_jsc () {
 alias jsc="load_jsc"
 
 load_nvm () {
+  # This assumes you installed nvm not via homebrew, but via the bash script from https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script.
+
   unalias nvm
   unalias node
   unalias npm
   unalias yarn
 
-  nvm_homebrew="${homebrew_home}"
-
   if [ -z "$NVM_DIR" ]; then
-    if [ -f "${nvm_homebrew}/opt/nvm/nvm.sh" ]; then
-      # nvm
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "${homebrew_home}/opt/nvm/nvm.sh" ] && . "${homebrew_home}/opt/nvm/nvm.sh"  # This loads nvm
-      [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-    fi;
+    # From nvm install output:
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
   fi;
 }
 
