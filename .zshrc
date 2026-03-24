@@ -1,44 +1,18 @@
-homebrew_home="${HOME}/homebrew"
+setopt prompt_subst # enable env variable substitution within the prompt.
 
-# Path to your oh-my-zsh installation.
-export ZSH="${HOME}/.oh-my-zsh"
+homebrew_home="$(brew --prefix)"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="gentoo"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-HYPHEN_INSENSITIVE="true"
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-# https://superuser.com/a/459057
-__git_files () {
-    _wanted files expl 'local files' _files
-}
-plugins=(git)
-
-# autosuggestions were installed via homebrew (brew install autosuggestions)
-source "${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-
-source $ZSH/oh-my-zsh.sh
-
-## Here comes my personal stuff ##
+homebrew_zsh_autosuggestions_path="${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [ -f "$homebrew_zsh_autosuggestions_path" ]; then
+  # autosuggestions were installed via homebrew (brew install zsh-autosuggestions)
+  source "$homebrew_zsh_autosuggestions_path"
+fi
 
 arch=$(arch)
 last_commit_time="00:00"
 
 # better prompt
-expectedPrompt='%(!.%B%F{red}.%B%F{green}%n@)%m %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%F{blue}%(!.#.$)%k%b%f '
-if [ "$PROMPT" = "$expectedPrompt" ]; then
-  PROMPT='%B%F{7}%D{%K:%M:%S} %F{8}${last_commit_time} %F{green}%n %F{red}'${arch:0:1}' %F{black}%? %F{blue}%(!.%1~.%~) ${vcs_info_msg_0_}%(!.%F{red}.%F{blue})$%k%b%f '
-fi
+PROMPT='%B%F{7}%D{%K:%M:%S} %F{8}${last_commit_time} %F{green}%n %F{red}'${arch:0:1}' %F{black}%? %F{blue}%(!.%1~.%~) %(!.%F{red}.%F{blue})$%k%b%f '
 
 alias code="open -a 'Visual Studio Code'"
 alias fork="open -a 'Fork'"
@@ -52,18 +26,6 @@ load_jsc () {
 }
 
 alias jsc="load_jsc"
-
-if [ "${arch}" = 'arm64' ]; then
-  export PATH="${homebrew_home}_intel/bin:${PATH}"
-  export PATH="${homebrew_home}_intel/sbin:${PATH}"
-  export PATH="${homebrew_home}/bin:${PATH}"
-  export PATH="${homebrew_home}/sbin:${PATH}"
-else
-  export PATH="${homebrew_home}/bin:${PATH}"
-  export PATH="${homebrew_home}/sbin:${PATH}"
-  export PATH="${homebrew_home}_intel/bin:${PATH}"
-  export PATH="${homebrew_home}_intel/sbin:${PATH}"
-fi
 
 load_nvm () {
   unalias nvm
@@ -80,21 +42,21 @@ load_nvm () {
       [ -s "${homebrew_home}/opt/nvm/nvm.sh" ] && . "${homebrew_home}/opt/nvm/nvm.sh"  # This loads nvm
       [ -s "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${homebrew_home}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
     fi;
-  else
-    echo "nvm already loaded"
   fi;
 }
 
 alias nvm="load_nvm && nvm"
 alias node="load_nvm && node"
 alias npm="load_nvm && npm"
-alias yarn="nvm use && yarn"
+alias yarn="load_nvm && yarn"
 
 # composer (php)
 export PATH="${HOME}/.composer/vendor/bin:${PATH}"
 
 # go (especially for air)
-export PATH="$(go env GOPATH)/bin:${PATH}"
+if which go &>/dev/null; then
+  export PATH="$(go env GOPATH)/bin:${PATH}"
+fi
 
 # ruby & chruby
 # this lazy loading approach does not work for shebangs. shebangs will take up the system ruby if ruby() wasn't called yet.
@@ -126,21 +88,6 @@ arm() {
   fi
 }
 
-# lighter autosuggest to better differentiate from the normal command.
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
-
-# asdf
-asdfFile="$HOME/homebrew/opt/asdf/libexec/asdf.sh"
-if [[ -f "${asdfFile}" ]]; then
-  . "${asdfFile}"
-fi
-
-# clang-tidy
-clangTidyFile="${HOME}/homebrew_intel/opt/llvm@14/bin/clang-tidy"
-if [[ -f "${clangTidyFile}" ]]; then
-  alias clang-tidy="${clangTidyFile}"
-fi
-
 # add custom user binaries to path
 export PATH="${HOME}/bin:${PATH}"
 
@@ -148,19 +95,6 @@ export PATH="${HOME}/bin:${PATH}"
 alias colorOdd='awk "NR%2 == 0 { print \"\033[107m\" \$0 \"\033[0m\"; next } { print \$0 }"'
 
 export HOMEBREW_EDITOR="open -a 'Visual Studio Code'"
-
-# Platform.sh CLI configuration
-export PATH="$HOME/"'.platformsh/bin':"$PATH"
-if [ -f "$HOME/"'.platformsh/shell-config.rc' ]; then 
-  . "$HOME/"'.platformsh/shell-config.rc';
-fi
-
-shellcheck-all() {
-  set -o pipefail
-  git ls-files | grep '.*.sh$' | xargs shellcheck -C "$@" | sed "s/ line \(.*\):/:\1/g" 
-}
-
-alias shellcheck-all-fix="git ls-files | grep '.*.sh\$' | xargs shellcheck -f diff | git apply --allow-empty"
 
 notify() {
   script="display notification \"$@\""
@@ -194,56 +128,18 @@ precmd-time-hook() {
   time_hook_start=""
 }
 
-add-zsh-hook preexec preexec-time-hook
-add-zsh-hook precmd precmd-time-hook
-
-# always run valet on intel, since php is installed in brew intel.
-valet() {
-  if [ "$(arch)" != 'i386' ]; then
-    echo "Error: valet needs to be executed in an intel shell"
-    return 1
-  fi
-
-  command valet "$@"
-}
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !! Sort of ;-)
-if [ -f "${HOME}/anaconda3/bin/conda" ]; then
-  export CONDA_AUTO_ACTIVATE_BASE=false
-  __conda_setup="$("${HOME}/anaconda3/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
-  if [ $? -eq 0 ]; then
-      eval "$__conda_setup"
-  else
-      if [ -f "${HOME}/anaconda3/etc/profile.d/conda.sh" ]; then
-          . "${HOME}/anaconda3/etc/profile.d/conda.sh"
-      else
-          export PATH="${HOME}/anaconda3/bin:$PATH"
-      fi
-  fi
-  unset __conda_setup
+if which add-zsh-hook &>/dev/null; then
+  add-zsh-hook preexec preexec-time-hook
+  add-zsh-hook precmd precmd-time-hook
 fi
-# <<< conda initialize <<<
 
 disable r # disable the built in r command so we can you r (the language).
 
-# fix for Docker on Mac with multiple users
-# https://github.com/docker/for-mac/issues/6781#issuecomment-1541911185
-# or use mutagen if available
-if docker context ls | grep desktop-linux &> /dev/null; then
-  docker context use desktop-linux &> /dev/null
-else
-  export DOCKER_HOST=unix://$HOME/.docker/run/docker.sock
-fi
-
-# Automatically do updates without asking. https://stackoverflow.com/a/25876379/5935427
-DISABLE_UPDATE_PROMPT=true
-
 alias PlistBuddy=/usr/libexec/PlistBuddy
-# lando
-export PATH="/Users/liip/.lando/bin${PATH+:$PATH}"; #landopath
-alias frontend-npm="lando frontend-npm"
-alias cart-client-npm="lando cart-client-npm"
-alias cart-api-npm="lando cart-api-npm"
 
-alias diff-highlight="/Users/liip/homebrew/Cellar/git/2.51.2/share/git-core/contrib/diff-highlight/diff-highlight"
+alias diff-highlight="$homebrew_home/Cellar/git/2.51.2/share/git-core/contrib/diff-highlight/diff-highlight"
+
+zshrc_local="$HOME/.zshrc_local"
+if [ -f "$zshrc_local" ]; then
+  source "$zshrc_local"
+fi
