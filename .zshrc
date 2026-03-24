@@ -11,7 +11,9 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
-homebrew_home="$(brew --prefix)"
+if which brew &>/dev/null; then
+  homebrew_home="$(brew --prefix)"
+fi
 
 homebrew_zsh_autosuggestions_path="${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 if [ -f "$homebrew_zsh_autosuggestions_path" ]; then
