@@ -1,3 +1,6 @@
+# shellcheck shell=bash
+# shellcheck disable=SC1090,SC1091
+
 setopt prompt_subst # enable env variable substitution within the prompt.
 
 homebrew_home="$(brew --prefix)"
@@ -12,6 +15,7 @@ arch=$(arch)
 last_commit_time="00:00"
 
 # better prompt
+# shellcheck disable=SC2034,SC2016
 PROMPT='%B%F{7}%D{%K:%M:%S} %F{8}${last_commit_time} %F{green}%n %F{red}'${arch:0:1}' %F{black}%? %F{blue}%(!.%1~.%~) %(!.%F{red}.%F{blue})$%k%b%f '
 
 alias code="open -a 'Visual Studio Code'"
@@ -21,6 +25,7 @@ alias beep="echo -ne '\007'"
 load_jsc () {
   unalias jsc
   jsc=$(find -L /System/Library/Frameworks/JavaScriptCore.framework -iname jsc | head -1)
+  # shellcheck disable=SC2139
   alias jsc="${jsc}"
   "${jsc}" "$@"
 }
@@ -51,11 +56,11 @@ alias npm="load_nvm && npm"
 alias yarn="load_nvm && yarn"
 
 # composer (php)
-export PATH="${HOME}/.composer/vendor/bin:${PATH}"
+PATH="${HOME}/.composer/vendor/bin:${PATH}"
 
 # go (especially for air)
 if which go &>/dev/null; then
-  export PATH="$(go env GOPATH)/bin:${PATH}"
+  PATH="$(go env GOPATH)/bin:${PATH}"
 fi
 
 # ruby & chruby
@@ -92,12 +97,14 @@ arm() {
 export PATH="${HOME}/bin:${PATH}"
 
 # color every second line to better read log stuff. Use like: ls | colorOdd
-alias colorOdd='awk "NR%2 == 0 { print \"\033[107m\" \$0 \"\033[0m\"; next } { print \$0 }"'
+colorOdd() {
+  awk "NR%2 == 0 { print \"\033[107m\" \$0 \"\033[0m\"; next } { print \$0 }"
+}  
 
 export HOMEBREW_EDITOR="open -a 'Visual Studio Code'"
 
 notify() {
-  script="display notification \"$@\""
+  script="display notification \"$*\""
   osascript -e "$script"
 }
 
@@ -108,19 +115,20 @@ preexec-time-hook() {
 notificationTime=$((5 * 60))
 precmd-time-hook() {
   if [[ "${time_hook_start}" != "" ]]; then
-    time_taken=$(( $(date +%s) - ${time_hook_start} ))
-    minutes=$(( $time_taken / 60 ))
-    seconds=$(( $time_taken % 60 ))
+    time_taken=$(( $(date +%s) - time_hook_start ))
+    minutes=$(( time_taken / 60 ))
+    seconds=$(( time_taken % 60 ))
 
-    if (( $minutes > 60 )); then
-      hours=$(( $minutes / 60 ))
-      minutes=$(( $minutes % 60 ))
+    if (( minutes > 60 )); then
+      hours=$(( minutes / 60 ))
+      minutes=$(( minutes % 60 ))
       printf -v last_commit_time "%02d:%02d:%02d" "$hours" "$minutes" "$seconds"
     else
+      # shellcheck disable=SC2034
       printf -v last_commit_time "%02d:%02d" "$minutes" $seconds
     fi
 
-    if (( $time_taken > $notificationTime )); then
+    if (( time_taken > notificationTime )); then
       printf "\a"
     fi
   fi
@@ -137,6 +145,7 @@ disable r # disable the built in r command so we can you r (the language).
 
 alias PlistBuddy=/usr/libexec/PlistBuddy
 
+# shellcheck disable=SC2139
 alias diff-highlight="$homebrew_home/Cellar/git/2.51.2/share/git-core/contrib/diff-highlight/diff-highlight"
 
 zshrc_local="$HOME/.zshrc_local"
