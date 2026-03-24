@@ -1,2 +1,3 @@
-- check if vimrc, sublime and vs code settings are up to date
-- enable some CI check for validity of files. (e.g. shellcheck)
+# TODO
+
+nothing at the moment :-)
