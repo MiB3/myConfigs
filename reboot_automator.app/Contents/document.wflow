@@ -51,7 +51,8 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>on run	set result to display dialog "Restart to:" buttons {"Privat", "Arbeit", "Cancel"} default button "Cancel" cancel button "Cancel"	return button returned of resultend run</string>
+					<string>on run	set result to display dialog "Restart to:" buttons {"Privat", "Arbeit", "Cancel"} cancel button "Cancel"	return button returned of result
+end run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -105,7 +106,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>749.750000:315.000000</string>
+				<string>741.250000:315.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -164,16 +165,19 @@ end run</string>
 					<string>logfile="$HOME/reboot_automator.log"
 echo "reboot automator started $(date "+%d.%m.%Y %H:%M:%S")" &gt; "$logfile"
 
-container=disk4
 volume="Macintosh HD"
 if [[ "$1" == "Arbeit" ]]; then
-	container=disk3
 	volume="Work HD"
 fi
 
-command=(diskUtil mountDisk "$container")
-echo "+ ${command[@]}" &gt;&gt; "$logfile"
-"${command[@]}" &amp;&gt;&gt; "$logfile"
+container="$(diskutil list | grep "$volume" | grep -o "disk[0-9]" | head -1)"
+currentContainer="$(bless --info --getBoot | grep "disk[0-9]")"
+
+if [ "$container" != "$currentContainer" ]; then
+	command=(diskUtil mountDisk "$container")
+	echo "+ ${command[@]}" &gt;&gt; "$logfile"
+	"${command[@]}" &amp;&gt;&gt; "$logfile" || exit 1
+fi
 
 command=(sudo -S bless --mount "/Volumes/$volume" --setboot --nextonly --verbose)
 echo "+ ${command[@]}" &gt;&gt; "$logfile"
@@ -183,7 +187,7 @@ PASS="$(osascript -e 'Tell application "System Events" to display dialog "Automa
 echo "$PASS" | "${command[@]}" &amp;&gt;&gt; "$logfile" || exit 1
 unset PASS
 
-osascript -e 'tell app "System Events" to restart'</string>
+osascript -e 'tell app "System Events" to restart without state saving preference'</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -296,7 +300,7 @@ osascript -e 'tell app "System Events" to restart'</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>749.750000:497.000000</string>
+				<string>741.250000:819.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -306,7 +310,7 @@ osascript -e 'tell app "System Events" to restart'</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>939AAFA5-DFD5-409D-B6F7-D674047246AD</key>
+		<key>75E8029A-F75C-4678-B15E-8CA2F3A779B8</key>
 		<dict>
 			<key>from</key>
 			<string>0F5FD139-7B66-4F3F-ACF5-D8C5EDB804FE - 0F5FD139-7B66-4F3F-ACF5-D8C5EDB804FE</string>
