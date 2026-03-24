@@ -3,6 +3,14 @@
 
 setopt prompt_subst # enable env variable substitution within the prompt.
 
+# Search through history with up and down keys with what was already typed. https://superuser.com/a/585004/575152
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
 homebrew_home="$(brew --prefix)"
 
 homebrew_zsh_autosuggestions_path="${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
