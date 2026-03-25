@@ -51,8 +51,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>on run	set result to display dialog "Restart to:" buttons {"Privat", "Arbeit", "Cancel"} cancel button "Cancel"	return button returned of result
-end run</string>
+					<string>on run	set result to display dialog "Restart to:" buttons {"Privat", "Arbeit", "Cancel"} cancel button "Cancel"	return {path to me, button returned of result}end run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -106,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>741.250000:315.000000</string>
+				<string>565.000000:315.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -163,35 +162,11 @@ end run</string>
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>logfile="$HOME/reboot_automator.log"
-echo "reboot automator started $(date "+%d.%m.%Y %H:%M:%S")" &gt; "$logfile"
-
-volume="Macintosh HD"
-if [[ "$1" == "Arbeit" ]]; then
-	volume="Work HD"
-fi
-
-container="$(diskutil list | grep "$volume" | grep -o "disk[0-9]" | head -1)"
-currentContainer="$(bless --info --getBoot | grep "disk[0-9]")"
-
-if [ "$container" != "$currentContainer" ]; then
-	command=(diskUtil mountDisk "$container")
-	echo "+ ${command[@]}" &gt;&gt; "$logfile"
-	"${command[@]}" &amp;&gt;&gt; "$logfile" || exit 1
-fi
-
-command=(sudo -S bless --mount "/Volumes/$volume" --setboot --nextonly --verbose)
-echo "+ ${command[@]}" &gt;&gt; "$logfile"
-
-PASS="$(osascript -e 'Tell application "System Events" to display dialog "Automator needs administrator privileges:" default answer "" with hidden answer' -e 'text returned of result')"
-
-echo "$PASS" | "${command[@]}" &amp;&gt;&gt; "$logfile" || exit 1
-unset PASS
-
-osascript -e 'tell app "System Events" to restart without state saving preference'</string>
+"$1/Contents/reboot_automator.sh" "$2" &amp;&gt; "$logfile" || exit 1</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
-					<integer>0</integer>
+					<integer>1</integer>
 					<key>shell</key>
 					<string>/bin/zsh</string>
 					<key>source</key>
@@ -300,7 +275,7 @@ osascript -e 'tell app "System Events" to restart without state saving preferenc
 				<key>isViewVisible</key>
 				<integer>1</integer>
 				<key>location</key>
-				<string>741.250000:819.000000</string>
+				<string>565.000000:497.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -310,7 +285,7 @@ osascript -e 'tell app "System Events" to restart without state saving preferenc
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>75E8029A-F75C-4678-B15E-8CA2F3A779B8</key>
+		<key>B6E8568E-0292-462D-A835-EA656190F3F4</key>
 		<dict>
 			<key>from</key>
 			<string>0F5FD139-7B66-4F3F-ACF5-D8C5EDB804FE - 0F5FD139-7B66-4F3F-ACF5-D8C5EDB804FE</string>

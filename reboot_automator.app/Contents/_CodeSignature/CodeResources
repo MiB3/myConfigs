@@ -6,11 +6,11 @@
 	<dict>
 		<key>Resources/ApplicationStub.icns</key>
 		<data>
-		KRABYRjqniV+RHksKm/Cwp/rBjc=
+		6ecpcY2FIkiuxHwZTXvk0Q+NDK0=
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		Feq/B0gIg6CEPGGwJZTUMe+P6Us=
+		NQVrH/AnxGiOG0jVeH9Lhodcv60=
 		</data>
 		<key>Resources/InfoPlist.loctable</key>
 		<data>
@@ -23,22 +23,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			KRABYRjqniV+RHksKm/Cwp/rBjc=
+			6ecpcY2FIkiuxHwZTXvk0Q+NDK0=
 			</data>
 			<key>hash2</key>
 			<data>
-			XZazMZ2bZ2qWGxbxoiDRlmRjg5X5TsklYcRHMnNHifU=
+			JbL6aY6oAI0/VQjl7n4DtneW06wjjgmhdYaySgH4918=
 			</data>
 		</dict>
 		<key>Resources/Assets.car</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Feq/B0gIg6CEPGGwJZTUMe+P6Us=
+			NQVrH/AnxGiOG0jVeH9Lhodcv60=
 			</data>
 			<key>hash2</key>
 			<data>
-			5J63SOHeJlc1QgH382BPGpMrRUDjW3W1JJF0odEXkAg=
+			KExyunlrOutFoUrJ1LU4CmHgyQhk9UBVuq2xyt/h51o=
 			</data>
 		</dict>
 		<key>Resources/InfoPlist.loctable</key>
@@ -56,10 +56,19 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			JrmH2PKTRkV5Au5N25dcHiEipyQ=
+			d1XBv66M4xXoNH+3PeOwb4LvIaA=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"26b987d8f29346457902ee4ddb975c1e2122a724"</string>
+			<string>cdhash H"7755c1bfae8ce315e8347fb73de3b06f82ef21a0"</string>
+		</dict>
+		<key>reboot_automator.sh</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			fueStutUIee2RJpJAxkUHv9gShc=
+			</data>
+			<key>requirement</key>
+			<string>cdhash H"7ee792b6eb5421e7b6449a490319141eff604a17"</string>
 		</dict>
 	</dict>
 	<key>rules</key>
