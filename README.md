@@ -10,8 +10,8 @@ A place for all my config files for different programs
 
 # VS Code
 
-    VS_CODE_SETTINGS="$HOME/Library/Application Support/Code/User/settings.json"
-    cp "$VS_CODE_SETTINGS"  'vs_code_settings_backup.json'
-    rm "$VS_CODE_SETTINGS"
-    # create a hardlink as vs code fails to read the softlink
-    ln myConfigs/MyVSCodeSettings/settings.json "$VS_CODE_SETTINGS"
+I could not fined a reliable way to link the VS Code settings to keep them in sync.
+
+# .zshrc
+
+    ln -s /full/path/to/myConfigs/.zshrc "$HOME/.zshrc"
