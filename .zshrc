@@ -15,19 +15,45 @@ if which brew &>/dev/null; then
   homebrew_home="$(brew --prefix)"
 fi
 
-homebrew_zsh_autosuggestions_path="${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-if [ -f "$homebrew_zsh_autosuggestions_path" ]; then
-  # autosuggestions were installed via homebrew (brew install zsh-autosuggestions)
-  source "$homebrew_zsh_autosuggestions_path"
+zshPlugin="${homebrew_home}/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+if [ -f "$zshPlugin" ]; then
+  source "$zshPlugin"
+  bindkey '^[[A' history-substring-search-up      # Up     to go back in history search.
+  bindkey '^[[B' history-substring-search-down    # Down   to go back in history search.
+  HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true     # Only show each matching history result once.
+else
+  echo "Please run: brew install zsh-history-substring-search"
 fi
 
+zhsPlugin="${homebrew_home}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [ -f "$zhsPlugin" ]; then
+  source "$zhsPlugin"
+else
+  echo "Please run: brew install zsh-autosuggestions"
+fi
+
+zshPlugin="$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [ -f "$zshPlugin" ]; then
+  # Only needed becuase of https://github.com/zsh-users/zsh-history-substring-search/issues/145
+  source "$zshPlugin"
+else
+  echo "Please run: brew install zsh-syntax-highlighting"
+fi
+
+# Get a global command history.
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000000
+export SAVEHIST=10000000
+setopt inc_append_history # prefer over "setopt share_history". Never set both!
+
+# Better prompt.
 arch=$(arch)
 last_commit_time="00:00"
 
-# better prompt
 # shellcheck disable=SC2034,SC2016
 PROMPT='%B%F{7}%D{%K:%M:%S} %F{8}${last_commit_time} %F{green}%n %F{red}'${arch:0:1}' %F{black}%? %F{blue}%(!.%1~.%~) %(!.%F{red}.%F{blue})$%k%b%f '
 
+# Add helpers for some GUI apps.
 alias code="open -a 'Visual Studio Code'"
 alias fork="open -a 'Fork'"
 alias beep="echo -ne '\007'"
@@ -162,3 +188,9 @@ zshrc_local="$HOME/.zshrc_local"
 if [ -f "$zshrc_local" ]; then
   source "$zshrc_local"
 fi
+
+# support for cd ...
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
