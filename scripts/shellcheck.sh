@@ -10,3 +10,5 @@ find . -type f -name "*.sh" -exec shellcheck {} +
 
 # Other files.
 shellcheck .zshrc
+
+echo "Success: all shell scripts are fine."

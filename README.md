@@ -1,6 +1,11 @@
 # myConfigs
 A place for all my config files for different programs
 
+To install everyting run
+```
+./scripts/install.sh 
+```
+
 # Sublime
 
     SUBLIME_USER_FOLDER="$HOME/Library/Application Support/Sublime Text/Packages/User"
