@@ -7,4 +7,4 @@
 
 ## .zshrc
 
-- add support for global history. Currently it seems to be limited per window.
+- add support for space commands not ending up in the history. OR find eve better way to clear history entries from api keys or passwords.
