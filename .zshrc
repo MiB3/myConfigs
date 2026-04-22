@@ -45,6 +45,7 @@ export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=10000000
 export SAVEHIST=10000000
 setopt inc_append_history # prefer over "setopt share_history". Never set both!
+setopt HIST_IGNORE_SPACE
 
 # Better prompt.
 arch=$(arch)
@@ -55,6 +56,7 @@ PROMPT='%B%F{7}%D{%K:%M:%S} %F{8}${last_commit_time} %F{green}%n %F{red}'${arch:
 
 # Add helpers for some GUI apps.
 alias code="open -a 'Visual Studio Code'"
+alias cursor="open -a 'Cursor'"
 alias fork="open -a 'Fork'"
 alias beep="echo -ne '\007'"
 
