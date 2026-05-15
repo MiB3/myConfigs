@@ -196,20 +196,3 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
-
-# start docker on ddev run if not already started.
-ddev() {
-  set -o pipefail
-  output=$(command ddev "$@" 2>&1 | tee /dev/tty)
-  exitCode="$?"
-  if [ "$exitCode" != "0" ]; then
-      if [[ "$output" = *"Docker error: Cannot connect to the Docker daemon at"* ]]; then
-          echo "Docker Desktop was not running. Starting it now ..."
-          open -a "Docker Desktop"
-          sleep 3
-          command ddev "$@"
-      else
-          return "$exitCode"
-      fi
-  fi
-}
