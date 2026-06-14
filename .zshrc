@@ -40,6 +40,10 @@ else
   echo "Please run: brew install zsh-syntax-highlighting"
 fi
 
+# match also small to capital letters for path completion
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
 # Get a global command history.
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=10000000
