@@ -111,7 +111,7 @@ load_chruby () {
   unalias chruby
   
   source "${homebrew_home}/opt/chruby/share/chruby/chruby.sh"
-  chruby 3.0.2
+  chruby 4.0.2
 }
 
 alias ruby="load_chruby && ruby"
