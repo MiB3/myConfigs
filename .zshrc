@@ -188,7 +188,7 @@ alias PlistBuddy=/usr/libexec/PlistBuddy
 # shellcheck disable=SC2139
 alias diff-highlight="$homebrew_home/Cellar/git/2.51.2/share/git-core/contrib/diff-highlight/diff-highlight"
 
-alias hgrep="history | grep"
+alias hgrep="history 1 | grep"
 
 zshrc_local="$HOME/.zshrc_local"
 if [ -f "$zshrc_local" ]; then
