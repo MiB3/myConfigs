@@ -1,0 +1,7 @@
+@-moz-document domain("youtube.com") {
+/* Make youtube theater mode scale till the bottom to hide ads and other distracting content. */
+#full-bleed-container:not(:has(.ytp-fullscreen)) {
+    height: calc(100vh - 50px) !important;
+    max-height: 100vw  !important;
+}
+}
