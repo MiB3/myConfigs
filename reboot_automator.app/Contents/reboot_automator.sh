@@ -33,4 +33,5 @@ end run
 EOF
 fi
 
-osascript -e 'tell app "System Events" to restart without state saving preference'
+defaults write com.apple.loginwindow TALLogoutSavesState -bool false
+osascript -e 'tell app "System Events" to restart with state saving preference'
