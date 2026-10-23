@@ -25,9 +25,16 @@ else
 	osascript - "${command[@]}" <<'EOF'
 on run argv
 	set cmd to ""
+
+	# turn
+	# {"bless", "--mount", "/Volumes/Work HD", "--setboot", "--nextonly", "--verbose"}
+	# into
+	# 'bless' '--mount' '/Volumes/Work HD' '--setboot' '--nextonly' '--verbose'
 	repeat with arg in argv
+		# cmd = cmd + "$arg" + " "
 		set cmd to cmd & quoted form of arg & " "
 	end repeat
+
 	do shell script cmd with prompt "Reboot Automator wants to change the startup disk." with administrator privileges
 end run
 EOF
