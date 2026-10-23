@@ -135,6 +135,7 @@ arm() {
 
 # add custom user binaries to path
 export PATH="${HOME}/bin:${PATH}"
+export PATH="$HOME/.local/bin:$PATH"
 
 # color every second line to better read log stuff. Use like: ls | colorOdd
 colorOdd() {

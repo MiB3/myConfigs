@@ -16,18 +16,22 @@ if [ "$container" != "$currentContainer" ]; then
 	diskUtil mountDisk "$container"
 fi
 
-# Hide password.
-set +x
+command=(bless --mount "/Volumes/$volume" --setboot --nextonly --verbose)
 
-command=(osascript -e 'Tell application "System Events" to display dialog "Automator needs administrator privileges:" default answer "" with hidden answer' -e 'text returned of result')
-echo "+ ${command[*]}"
-PASS="$("${command[@]}")"
-
-command=(sudo -S bless --mount "/Volumes/$volume" --setboot --nextonly --verbose)
-echo "+ ${command[*]}"
-echo -e "$PASS\n\n" | "${command[@]}"
-unset PASS
-
-set -x
+# Touch ID via sudo (needs pam_tid.so in /etc/pam.d/sudo_local). Without a terminal
+# sudo can't ask for a password, so fall back to the system authorization dialog.
+if sudo -v </dev/null; then
+	sudo "${command[@]}"
+else
+	osascript - "${command[@]}" <<'EOF'
+on run argv
+	set cmd to ""
+	repeat with arg in argv
+		set cmd to cmd & quoted form of arg & " "
+	end repeat
+	do shell script cmd with prompt "Reboot Automator wants to change the startup disk." with administrator privileges
+end run
+EOF
+fi
 
 osascript -e 'tell app "System Events" to restart without state saving preference'
