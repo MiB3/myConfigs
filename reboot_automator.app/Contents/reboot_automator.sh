@@ -9,11 +9,10 @@ if [[ "$1" == "Arbeit" ]]; then
 	volume="Work HD"
 fi
 
-container="$(diskutil list | grep "$volume" | grep -o "disk[0-9]" | head -1)"
-currentContainer="$(bless --info --getBoot | grep "disk[0-9]")"
-
-if [ "$container" != "$currentContainer" ]; then
-	diskUtil mountDisk "$container"
+# The other system's volume might not be mounted while booted from this one.
+if [ ! -e "/Volumes/$volume" ]; then
+	container="$(diskutil info -plist "$volume" | plutil -extract APFSContainerReference raw -)"
+	diskutil mountDisk "$container"
 fi
 
 command=(bless --mount "/Volumes/$volume" --setboot --nextonly --verbose)
